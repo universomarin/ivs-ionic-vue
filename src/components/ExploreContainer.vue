@@ -18,7 +18,7 @@
       player: null,
       videoSource: process.env.VUE_APP_CHAN_ENDPOINT,
       videoOptions: {
-        autoplay: false,
+        autoplay: true,
         controls: true,
         techOrder: ["AmazonIVS"],
         width: "800"

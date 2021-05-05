@@ -1,10 +1,5 @@
 # ivs-ionic-vue
 
-<p align="center">
-  <img height="500" src="ivs-ionic-vue.png">
-  <img height="400" src="ivs-ionic-vue.jpeg">
-</p>
-
 This is a project created to test the integration of [Amazon IVS Player](https://docs.aws.amazon.com/ivs/latest/userguide/player.html) with the [Video.js](https://videojs.com/). Currently just loads a stream channel into the player, the _Playback URL_ must be placed in the `.env` file.
 
 ## Project setup

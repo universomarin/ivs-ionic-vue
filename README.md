@@ -22,6 +22,31 @@ VUE_APP_CHAN_ENDPOINT='https://fcc3ddae59ed.us-west-2.playback.live-video.net/ap
 ionic serve
 ```
 
+
+### Build a Native App
+
+Adding native functionality is easy. First, add Capacitor to your project: [capacitorjs](https://capacitorjs.com/)
+```
+ionic integrations enable capacitor
+```
+Next, build the project, then add your platform of choice:
+```
+ionic build
+ionic cap add ios
+ionic cap add android
+```
+
+We use the standard native IDEs (Xcode and Android Studio) to open, build, and run the iOS and Android projects:
+```
+ionic cap open ios
+ionic cap open android
+```
+
+For more information
+[ionic-vue documentation](https://ionicframework.com/docs/vue/quickstart#build-a-native-app)
+
+
+
 ## Test Streams
 
 You can use these test streams provided by Amazon IVS

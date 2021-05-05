@@ -1,5 +1,6 @@
 <template>
   <div id="container">
+    <strong>{{ name }}</strong>
     <video ref="videoPlayer" class="video-js"></video>   
   </div>
 </template>
@@ -13,7 +14,9 @@
 
   export default {
     name: 'ExploreContainer',
-    
+    props: {
+      name: String
+    },
     data: () => ({
       player: null,
       videoSource: process.env.VUE_APP_CHAN_ENDPOINT,
@@ -22,12 +25,12 @@
         controls: true,
         techOrder: ["AmazonIVS"],
         width: "800"
-      }
+      },
     }),
 
     mounted() {
       // register the tech with videojs
-      console.log(`wasmWorker: ${this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.js')}`);
+      console.log(`wasmWorker: ${this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.js')}`)
 
       registerIVSTech(videojs,  {
         wasmWorker: this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.js'),
@@ -51,9 +54,11 @@
 
     methods: {
       createAbsolutePath(assetPath) {
+        console.log( document.URL );
         return new URL(assetPath, document.URL).toString();
-      }
+      },
     }
+
   }
 </script>
 

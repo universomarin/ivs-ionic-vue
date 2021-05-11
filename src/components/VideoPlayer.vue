@@ -1,7 +1,7 @@
 <template>
   <div id="container">
     <strong>{{ name }}</strong>
-    <video ref="videoPlayer" class="video-js"></video>   
+    <video id="video-player"></video>   
   </div>
 </template>
 
@@ -37,12 +37,48 @@
         wasmBinary: this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.wasm'),
       });
 
-      // Init the player
-      this.player = videojs(this.$refs.videoPlayer, this.videoOptions, () => {
-        console.log('Player is ready to use!');
-        // play the stream
-        this.player.src(this.videoSource);
-      })
+      (IVSPlayerPackage) => {
+          // First, check if the browser supports the IVS player.
+          if (!IVSPlayerPackage.isPlayerSupported) {
+              console.warn("The current browser does not support the IVS player.");
+              return;
+          }
+
+          const PlayerState = IVSPlayerPackage.PlayerState;
+          const PlayerEventType = IVSPlayerPackage.PlayerEventType;
+
+          // Initialize player
+          const player = IVSPlayerPackage.create();
+          console.log("IVS Player version:", player.getVersion());
+          player.attachHTMLVideoElement(document.getElementById("video-player"));
+
+          // Attach event listeners
+          player.addEventListener(PlayerState.PLAYING, function () {
+              console.log("Player State - PLAYING");
+          });
+          player.addEventListener(PlayerState.ENDED, function () {
+              console.log("Player State - ENDED");
+          });
+          player.addEventListener(PlayerState.READY, function () {
+              console.log("Player State - READY");
+          });
+          player.addEventListener(PlayerEventType.ERROR, function (err) {
+              console.warn("Player Event - ERROR:", err);
+          });
+          player.addEventListener(PlayerEventType.TEXT_METADATA_CUE, (cue) => {
+              const metadataText = cue.text;
+              const position = player.getPosition().toFixed(2);
+              console.log(
+                  `PlayerEvent - TEXT_METADATA_CUE: "${metadataText}". Observed ${position}s after playback started.`
+              );
+          });
+
+          // Setup stream and play
+          player.setAutoplay(true);
+          player.src(this.videoSource);
+          player.setVolume(0.5);
+      }
+      (window.IVSPlayer);
     },
 
     beforeUnmount() {
@@ -58,7 +94,6 @@
         return new URL(assetPath, document.URL).toString();
       },
     }
-
   }
 </script>
 

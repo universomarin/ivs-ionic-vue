@@ -1,65 +1,47 @@
 <template>
   <div id="container">
-    <strong>{{ name }}</strong>
-    <video ref="videoPlayer" class="video-js"></video>   
+    <video id="video-player" playsinline></video>
   </div>
 </template>
 
-
 <script>
-  import videojs from 'video.js';
-  import { registerIVSTech } from 'amazon-ivs-player';
-  import 'video.js/dist/video-js.css';
 
+export default {
+  name: "Player",
+  props: {},
 
-  export default {
-    name: 'ExploreContainer',
-    props: {
-      name: String
-    },
-    data: () => ({
-      player: null,
-      videoSource: process.env.VUE_APP_CHAN_ENDPOINT,
-      videoOptions: {
-        autoplay: true,
-        controls: true,
-        techOrder: ["AmazonIVS"],
-        width: "800"
-      },
-    }),
+  mounted: function () {
+    const IVSPlayerPackage = window.IVSPlayer;
+    const PlayerState = IVSPlayerPackage.PlayerState;
+    const PlayerEventType = IVSPlayerPackage.PlayerEventType;
 
-    mounted() {
-      // register the tech with videojs
-      console.log(`wasmWorker: ${this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.js')}`)
+    // Initialize player
+    const player = IVSPlayerPackage.create();
+    console.log("IVS Player version:", player.getVersion());
+    player.attachHTMLVideoElement(document.getElementById("video-player"));
 
-      registerIVSTech(videojs,  {
-        wasmWorker: this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.js'),
-        wasmBinary: this.createAbsolutePath('/assets/amazon-ivs-wasmworker.min.wasm'),
-      });
+    // Attach event listeners
+    player.addEventListener(PlayerState.PLAYING, function () {
+      console.log("Player State - PLAYING");
+    });
+    player.addEventListener(PlayerState.ENDED, function () {
+      console.log("Player State - ENDED");
+    });
+    player.addEventListener(PlayerState.READY, function () {
+      console.log("Player State - READY");
+    });
+    player.addEventListener(PlayerEventType.ERROR, function (err) {
+      console.warn("Player Event - ERROR:", err);
+    });
 
-      // Init the player
-      this.player = videojs(this.$refs.videoPlayer, this.videoOptions, () => {
-        console.log('Player is ready to use!');
-        // play the stream
-        this.player.src(this.videoSource);
-      })
-    },
-
-    beforeUnmount() {
-      // Destroy the player instance
-      if(this.player) {
-        this.player.dispose();
-      }
-    },
-
-    methods: {
-      createAbsolutePath(assetPath) {
-        console.log( document.URL );
-        return new URL(assetPath, document.URL).toString();
-      },
-    }
-
+    // Setup stream and play
+    player.setAutoplay(true);
+    player.load(
+      "https://fcc3ddae59ed.us-west-2.playback.live-video.net/api/video/v1/us-west-2.893648527354.channel.DmumNckWFTqz.m3u8"
+    );
+    player.setVolume(0.0);
   }
+};
 </script>
 
 <style scoped>
@@ -73,5 +55,9 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+}
+
+#video-player {
+  width: 90%;
 }
 </style>

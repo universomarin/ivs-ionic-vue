@@ -10,12 +10,6 @@ Install all dependencies
 npm install
 ```
 
-Create a `.env` file and set the value for the variable `VUE_APP_CHAN_ENDPOINT`
-
-```
-VUE_APP_CHAN_ENDPOINT='https://fcc3ddae59ed.us-west-2.playback.live-video.net/api/video/v1/us-west-2.893648527354.channel.DmumNckWFTqz.m3u8'
-```
-
 ### Compiles and hot-reloads for development
 
 ```

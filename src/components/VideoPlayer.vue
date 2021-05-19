@@ -19,7 +19,7 @@
     },
     data: () => ({
       player: null,
-      videoSource: process.env.VUE_APP_CHAN_ENDPOINT,
+      videoSource: process.env.VUE_APP_PLAYER_URL,
       videoOptions: {
         autoplay: true,
         controls: true,

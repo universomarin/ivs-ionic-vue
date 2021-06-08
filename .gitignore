@@ -13,16 +13,10 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
-# local env files
-.env.local
-.env.*.local
-
-# Log files
 *.log
 log.txt
 npm-debug.log*
 
-# Editor directories and files
 /.idea
 /.ionic
 /.sass-cache

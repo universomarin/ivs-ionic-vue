@@ -2,26 +2,27 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Square Video</ion-title>
+        <ion-title>Tab 2</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Square Video</ion-title>
+          <ion-title size="large">Tab 2</ion-title>
         </ion-toolbar>
       </ion-header>
-      <VideoPlayer />
+      
+      <ExploreContainer name="Tab 2 page" />
     </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import VideoPlayer from '@/components/VideoPlayer.vue';
+import ExploreContainer from '@/components/ExploreContainer.vue';
 
 export default  {
-  name: 'SquareVideo',
-  components: { VideoPlayer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
+  name: 'Tab2',
+  components: { ExploreContainer, IonHeader, IonToolbar, IonTitle, IonContent, IonPage }
 }
 </script>
